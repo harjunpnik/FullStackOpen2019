@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 const Statistics = (props) => {
-    const total = props.good + props.neutral + props.bad
+  const total = props.good + props.neutral + props.bad
+  if(total >0){
   return (
     <div>
-      <h1>Statistics</h1>
       <p>Good {props.good}</p>
       <p>Neutral {props.neutral}</p>
       <p>Bad {props.bad}</p>
@@ -14,6 +14,13 @@ const Statistics = (props) => {
       <p>Positive {props.good / total * 100} %</p>
     </div>
   )
+  }else{
+    return(
+        <div>
+            <p>No feedback given</p>
+        </div>
+    )
+  }
 }
 
 const App = () => {
@@ -24,8 +31,8 @@ const App = () => {
 
   return (
     <div>
+      <h1>Give feedback</h1>
       <div>
-        <h1>Give feedback</h1>
         <button onClick={() => setGood(good + 1)}> 
           Good 
         </button>
@@ -36,6 +43,7 @@ const App = () => {
           Bad 
         </button>
       </div>
+      <h1>Statistics</h1>
       <Statistics good={good} neutral={neutral} bad={bad}/>
     </div>
   )
