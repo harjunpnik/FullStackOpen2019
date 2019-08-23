@@ -5,11 +5,11 @@ const Button = (props) => (
     <button onClick={props.onClick}>{props.text}</button>
 )
 
-
-
 const App = (props) => {
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState(Array.apply(null, new Array(anecdotes.length)).map(Number.prototype.valueOf,0))
+  const [mostVotes, setMostVotes] = useState(0)
+  const [mostVotesPos, setMostVotesPos] = useState(0)
 
   const randomNumber = () =>{
     const randomNr = Math.floor(Math.random() * anecdotes.length)
@@ -20,14 +20,26 @@ const App = (props) => {
     const copy = [...points]
     copy[selected] += 1
     setPoints(copy)
+    if(copy[selected] > mostVotes){
+        setMostVotes(copy[selected])
+        setMostVotesPos(selected)
+    }
   }
 
   return (
     <div>
-      <p>{props.anecdotes[selected]}</p>
-      <p>Has {points[selected]} votes</p>
-      <Button onClick={Vote} text="Vote"/>
-      <Button onClick={randomNumber} text="Next anecdote"/>
+      <div>
+        <h1>Anecdote of the day</h1>
+        <p>{props.anecdotes[selected]}</p>
+        <p>Has {points[selected]} votes</p>
+        <Button onClick={Vote} text="Vote"/>
+        <Button onClick={randomNumber} text="Next anecdote"/>
+      </div>
+      <div>
+        <h1>Anecdote with most votes</h1>
+        <p>{props.anecdotes[mostVotesPos]}</p>
+        <p>Has {points[mostVotesPos]} votes</p>
+      </div>
     </div>
   )
 }
