@@ -22,6 +22,11 @@ const App = () => {
     setFilter(event.target.value)
   }
 
+  const handleSetCountryButton = (event) => {
+    //console.log(event.target.value)
+    setFilter(event.target.value)
+  }
+
   return (
     <div>
       <Filter 
@@ -32,6 +37,7 @@ const App = () => {
       <Countries 
         countries={countries} 
         filter={filter}
+        handleSetCountryButton={handleSetCountryButton}
       />
     </div>
   );

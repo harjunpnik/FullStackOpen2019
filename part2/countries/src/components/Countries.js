@@ -2,7 +2,7 @@ import React from 'react'
 import Country from './Country'
 import CountryList from './CountryList'
 
-const Countries = ({countries,filter}) => {
+const Countries = ({countries,filter,handleSetCountryButton}) => {
 
     let countryList = countries
 
@@ -25,7 +25,7 @@ const Countries = ({countries,filter}) => {
         )
       }else if(countryList.length > 1){
         return(
-            <CountryList countries={countryList}/>
+            <CountryList countries={countryList} handleSetCountryButton={handleSetCountryButton}/>
         )
       }else{
         return(
