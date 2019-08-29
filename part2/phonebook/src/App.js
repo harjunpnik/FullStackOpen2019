@@ -1,15 +1,17 @@
 import React, { useState, useEffect  } from 'react'
-import axios from 'axios'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import personService from './services/persons'
+import Notification from './components/Notification'
+
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filter, setFilter ] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -30,6 +32,10 @@ const App = () => {
         .create(personObject)
         .then(response => {
           setPersons(persons.concat(response.data))
+          setNotificationMessage("Added " + personObject.name)
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 5000)
         })
 
     }else{
@@ -39,6 +45,10 @@ const App = () => {
           .update(id, personObject)
           .then(response => {
             setPersons(persons.map(person => person.name === personObject.name ? personObject : person))
+            setNotificationMessage("Changed number of " + personObject.name)
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 5000)
           })
       }
     }
@@ -77,6 +87,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={notificationMessage} />
+
       <Filter filter={filter} handleFilterChange={handleFilterChange}>/></Filter>
       
       <h3>Add a new</h3>
