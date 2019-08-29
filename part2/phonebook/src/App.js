@@ -12,6 +12,7 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ filter, setFilter ] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
+  const [errorStatus, setErrorStatus] = useState(null)
 
   useEffect(() => {
     personService
@@ -35,6 +36,7 @@ const App = () => {
           setNotificationMessage("Added " + personObject.name)
           setTimeout(() => {
             setNotificationMessage(null)
+            setErrorStatus(null)
           }, 5000)
         })
 
@@ -48,6 +50,14 @@ const App = () => {
             setNotificationMessage("Changed number of " + personObject.name)
             setTimeout(() => {
               setNotificationMessage(null)
+            }, 5000)
+          }) 
+          .catch(error => {
+            setErrorStatus(true)
+            setNotificationMessage("Information of " + personObject.name + "has already been removed from server")
+            setTimeout(() => {
+              setNotificationMessage(null)
+              setErrorStatus(null)
             }, 5000)
           })
       }
@@ -79,6 +89,14 @@ const App = () => {
           setPersons(persons.filter(pers =>
             person.id !== pers.id
           ))
+        }) 
+        .catch(error => {            
+          setErrorStatus(true)
+          setNotificationMessage("Information of " + person.name + "has already been removed from server")
+          setTimeout(() => {
+            setNotificationMessage(null)
+            setErrorStatus(null)
+          }, 5000)
         })
     }
 
@@ -88,7 +106,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
 
-      <Notification message={notificationMessage} />
+      <Notification message={notificationMessage} error={errorStatus} />
 
       <Filter filter={filter} handleFilterChange={handleFilterChange}>/></Filter>
       
