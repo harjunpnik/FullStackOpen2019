@@ -31,7 +31,7 @@ const App = () => {
         .then(response => {
           setPersons(persons.concat(response.data))
         })
-        
+
     }else{
       alert(personObject.name + ' is already added to the phonebook')
     }
@@ -54,6 +54,19 @@ const App = () => {
     setFilter(event.target.value)
   }
 
+  const handlePersonDeletion = (person) => {
+    if(window.confirm("Delete " + person.name + " ?")){
+      personService
+        .deletePerson(person.id)
+        .then(response => {
+          setPersons(persons.filter(pers =>
+            person.id !== pers.id
+          ))
+        })
+    }
+
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -70,7 +83,7 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Persons persons={persons} filter={filter}/>
+      <Persons persons={persons} filter={filter} deletePerson={handlePersonDeletion}/>
     </div>
   )
 }
