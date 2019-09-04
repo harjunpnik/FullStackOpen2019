@@ -39,6 +39,15 @@ const App = () => {
             setErrorStatus(null)
           }, 5000)
         })
+        .catch(error => {
+          console.log(error.response.data)
+          setErrorStatus(true)
+          setNotificationMessage(error.response.data.error)
+          setTimeout(() => {
+            setNotificationMessage(null)
+            setErrorStatus(null)
+          }, 5000)
+        })
 
     }else{
       if(window.confirm(personObject.name + ' is already added to the phonebook, replace the old number with a new one?')){
@@ -54,7 +63,7 @@ const App = () => {
           }) 
           .catch(error => {
             setErrorStatus(true)
-            setNotificationMessage("Information of " + personObject.name + "has already been removed from server")
+            setNotificationMessage("Information of " + personObject.name + " has already been removed from server")
             setTimeout(() => {
               setNotificationMessage(null)
               setErrorStatus(null)
