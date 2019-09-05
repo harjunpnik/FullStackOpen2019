@@ -52,10 +52,33 @@ const mostBlogs = (blogs) => {
 
     return mostBlogs
 }
+
+const mostLikes  = (blogs) => {
+    const authors = blogs.map(blog => blog.author)
+    let mostLikedAuthor = {
+        author: null,
+        likes: null
+    }
+    let mostLikes = 0
+
+    array.uniq(authors).forEach( author =>{
+        const currentAuthorsBlogs = blogs.filter(blog => blog.author === author)
+        const authorsLikes = totalLikes(currentAuthorsBlogs)
+        if(authorsLikes> mostLikes){
+            mostLikes = authorsLikes
+            mostLikedAuthor = {
+                author: author,
+                likes: authorsLikes
+            }
+        }
+    })
+    return mostLikedAuthor
+}
   
 module.exports = {
     dummy,
     totalLikes,
     favoriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
 }

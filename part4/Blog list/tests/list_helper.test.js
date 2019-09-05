@@ -134,4 +134,33 @@ describe('total likes', () => {
         }
         expect(result).toStrictEqual(expectedResult)
     })
+
+    //  MOST LIKES
+
+    test('when list is empty, find most liked author', () => {
+        const result = listHelper.mostLikes([])
+        const expectedResult = {
+            author: null,
+            likes: null
+          }
+        expect(result).toStrictEqual(expectedResult)
+    })
+
+    test('when list has one blog, find most liked author', () => {
+        const result = listHelper.mostLikes([blogs[0]])
+        const expectedResult = {
+            author: "Michael Chan",
+            likes: 7
+          }
+        expect(result).toStrictEqual(expectedResult)
+    })
+
+    test('when list has several blogs, find most liked author', () => {
+        const result = listHelper.mostLikes(blogs)
+        const expectedResult = {
+            author: "Edsger W. Dijkstra",
+            likes: 17
+          }
+        expect(result).toStrictEqual(expectedResult)
+    })
   })
