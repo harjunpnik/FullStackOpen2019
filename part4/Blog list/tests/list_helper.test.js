@@ -62,7 +62,7 @@ describe('total likes', () => {
     test('when list is empty equals 0 likes', () => {
         const result = listHelper.totalLikes([])
         expect(result).toBe(0)
-      })
+    })
 
     test('when list has only one blog equals the likes of that', () => {
       const result = listHelper.totalLikes([blogs[0]])
@@ -72,5 +72,32 @@ describe('total likes', () => {
     test('when list has several blogs, then it equals to the sum', () => {
         const result = listHelper.totalLikes(blogs)
         expect(result).toBe(36)
-      })
+    })
+
+    test('when list is empty, find most blogs', () => {
+        const result = listHelper.mostBlogs([])
+        const expectedResult = {
+            author: null,
+            blogs: null
+        }
+        expect(result).toStrictEqual(expectedResult)
+    })
+
+    test('when list has one blog, find most blogs', () => {
+        const result = listHelper.mostBlogs([blogs[0]])
+        const expectedResult = {
+            author: "Michael Chan",
+            blogs: 1
+        }
+        expect(result).toStrictEqual(expectedResult)
+    })
+
+    test('when list has several blogs, find most blogs', () => {
+        const result = listHelper.mostBlogs(blogs)
+        const expectedResult = {
+            author: "Robert C. Martin",
+            blogs: 3
+        }
+        expect(result).toStrictEqual(expectedResult)
+    })
   })
