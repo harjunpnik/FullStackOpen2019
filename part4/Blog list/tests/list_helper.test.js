@@ -58,7 +58,8 @@ describe('total likes', () => {
           __v: 0
         }  
       ]
-  
+
+    //  TOTAL LIKES
     test('when list is empty equals 0 likes', () => {
         const result = listHelper.totalLikes([])
         expect(result).toBe(0)
@@ -74,6 +75,39 @@ describe('total likes', () => {
         expect(result).toBe(36)
     })
 
+    // FAVORITE BLOG favoriteBlog
+
+    test('when list is empty, find favorite blog', () => {
+        const result = listHelper.favoriteBlog([])
+        const expectedResult = {
+            title: null,
+            author: null,
+            likes: null
+        }
+        expect(result).toStrictEqual(expectedResult)
+    })
+
+    test('when list has one blog, find favorite blog', () => {
+        const result = listHelper.favoriteBlog([blogs[0]])
+        const expectedResult = {
+            title: "React patterns",
+            author: "Michael Chan",
+            likes: 7
+        }
+        expect(result).toStrictEqual(expectedResult)
+    })
+
+    test('when list has several blogs, find favorite blog', () => {
+        const result = listHelper.favoriteBlog(blogs)
+        const expectedResult = {
+            title: "Canonical string reduction",
+            author: "Edsger W. Dijkstra",
+            likes: 12
+        }
+        expect(result).toStrictEqual(expectedResult)
+    })
+
+    //  MOST BLOGS
     test('when list is empty, find most blogs', () => {
         const result = listHelper.mostBlogs([])
         const expectedResult = {
