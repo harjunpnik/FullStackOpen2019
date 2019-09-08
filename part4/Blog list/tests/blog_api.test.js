@@ -82,7 +82,25 @@ test('a valid blog can be added ', async () => {
   
     expect(response.body.length).toBe(initialBlogs.length + 1)
     expect(titles).toContain("Type wars")
-  })
+})
+
+test('a blog without likes will have 0 likes ', async () => {
+    const newBlog = {
+        title: "Likeless Blog",
+        author: "Bobert D. Mortin",
+        url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/LikeWars.html"
+    }  
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+  
+    const response = await api.get('/api/blogs')
+    const likeAmount = response.body.find(r => r.title === newBlog.title).likes
+    expect(likeAmount).toBe(0)
+})
 
 afterAll(() => {
   mongoose.connection.close()
