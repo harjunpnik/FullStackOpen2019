@@ -102,6 +102,32 @@ test('a blog without likes will have 0 likes ', async () => {
     expect(likeAmount).toBe(0)
 })
 
+test('a blog without title wont be added', async () => {
+    const newBlog = {
+        author: "Bobert D. Mortin",
+        url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/LikeWars.html"
+    }  
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+})
+
+test('a blog author title wont be added', async () => {
+    const newBlog = {
+        title: "Likeless Blog",
+        url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/LikeWars.html"
+    }  
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
