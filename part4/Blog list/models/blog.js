@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 
+mongoose.set('useFindAndModify', false)
+
 const blogSchema = mongoose.Schema({
     title: String,
     author: String,
@@ -15,4 +17,4 @@ blogSchema.set('toJSON', {
   }
 })
 
-  module.exports = mongoose.model('Blog', blogSchema)
+module.exports = mongoose.model('Blog', blogSchema)
