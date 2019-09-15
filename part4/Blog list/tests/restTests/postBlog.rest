@@ -1,9 +1,9 @@
 post http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RVc2VyIiwiaWQiOiI1ZDdlNjMwN2FlODJmZjA0OTBhMDlkMjIiLCJpYXQiOjE1Njg1NjQyNjh9.CDz0dM9cz8PV3IsnhsQH9C8GFtTntkt066Y0FD4yYUs
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RVc2VyIiwiaWQiOiI1ZDdlNjMwN2FlODJmZjA0OTBhMDlkMjIiLCJpYXQiOjE1Njg1NjU3ODN9.bE0__cAbbM5vF0g-KIXHfJ0-6_pnW-fR9hGJSENpkNU
 
 {
-"title": "Today is a great day",
+"title": "Some day is a better day",
 "author": "Edgar Martionsson",
 "url": "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
 "likes": 23
