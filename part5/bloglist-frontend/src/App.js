@@ -2,6 +2,7 @@ import React, {useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import loginService from './services/login'
 import blogService from './services/blogs'
+import Notification from './components/Notification'
 
 function App() {
 
@@ -11,7 +12,9 @@ function App() {
   const [author, setAuthor] = useState('') 
   const [url, setUrl] = useState('') 
   const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [password, setPassword] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [errorStatus, setErrorStatus] = useState(null) 
 
   useEffect(() => {
     blogService
@@ -45,7 +48,12 @@ function App() {
       setPassword('')
       console.log(user)
     } catch (exception) {
-      //errorHandling
+      setErrorStatus(true)
+      setNotificationMessage('Wrong username or password')
+      setTimeout(() => {
+        setErrorStatus(null)
+        setNotificationMessage(null)
+      }, 5000)
     }
   }
 
@@ -63,10 +71,15 @@ function App() {
       likes: 0,
     }
 
-    console.log(blogObject)
+    //console.log(blogObject)
     blogService
       .create(blogObject)
       .then(data => {
+
+        setNotificationMessage('A new blog ' +  title + ' by ' +  author +  ' added')
+        setTimeout(() => {
+          setNotificationMessage(null)
+        }, 5000)
         setBlogs(blogs.concat(data))
         setTitle('')
         setAuthor('')
@@ -137,6 +150,7 @@ function App() {
   return (
     <div>
       <h2>Blogs</h2>
+      <Notification message={notificationMessage} error={errorStatus} />
       {user === null ?
         loginForm() :
           <div>
