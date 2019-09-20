@@ -41,7 +41,8 @@ const Blog = ({ blog, likeBlog, deleteBlog, isCurrentUser }) => {
           <button onClick={deleteBlog}>Remove</button>
         </div>
       </div>
-  </div>
-)}
+    </div>
+  )
+}
 
 export default Blog

@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import loginService from './services/login'
 import blogService from './services/blogs'
@@ -11,13 +11,13 @@ function App() {
 
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
-  const [title, setTitle] = useState('') 
-  const [author, setAuthor] = useState('') 
-  const [url, setUrl] = useState('') 
-  const [username, setUsername] = useState('') 
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
-  const [errorStatus, setErrorStatus] = useState(null) 
+  const [errorStatus, setErrorStatus] = useState(null)
 
   useEffect(() => {
     blogService
@@ -69,7 +69,7 @@ function App() {
     setPassword(event.target.value)
   }
 
-  const logoutHandler = (event) => {
+  const logoutHandler = () => {
     setUser(null)
     window.localStorage.removeItem('loggedBlogappUser')
   }
@@ -112,39 +112,41 @@ function App() {
 
   const likeBlog = id => {
     const blog = blogs.find(n => n.id === id)
-    const changedBlog = { ...blog, likes: blog.likes + 1}
+    const changedBlog = { ...blog, likes: blog.likes + 1 }
 
 
-      blogService
+    blogService
       .update(id, changedBlog)
-      .then(returnedBlog =>{
+      .then(returnedBlog => {
         setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
       })
       .catch (error => {
+        console.log(error)
         setPassword('')
         setErrorStatus(true)
-        setNotificationMessage("That blog has already been removed from the server")
+        setNotificationMessage('That blog has already been removed from the server')
         setTimeout(() => {
           setErrorStatus(null)
           setNotificationMessage(null)
         }, 5000)
         setBlogs(blogs.filter(n => n.id !== id))
-    })
+      })
   }
 
   const deleteBlog = (blog) => {
-    if(window.confirm("Remove blog " + blog.title + " by " + blog.author + " ?")){
+    if(window.confirm('Remove blog ' + blog.title + ' by ' + blog.author + ' ?')){
       if( blog.user.username === user.username){
         blogService
           .remove(blog.id)
-          .then(response => {
+          .then( () => {
             setBlogs(blogs.filter(b =>
               b.id !== blog.id
             ))
-          }) 
-          .catch(error => {            
+          })
+          .catch(error => {
+            console.log(error)
             setErrorStatus(true)
-            setNotificationMessage("Information of " + blog.title + "has already been removed from server")
+            setNotificationMessage('Information of ' + blog.title + ' has already been removed from server')
             setTimeout(() => {
               setNotificationMessage(null)
               setErrorStatus(null)
@@ -152,27 +154,27 @@ function App() {
           })
       }else{
         setErrorStatus(true)
-            setNotificationMessage("You can only delete your own posted blogs")
-            setTimeout(() => {
-              setNotificationMessage(null)
-              setErrorStatus(null)
-            }, 5000)
-      }    
+        setNotificationMessage('You can only delete your own posted blogs')
+        setTimeout(() => {
+          setNotificationMessage(null)
+          setErrorStatus(null)
+        }, 5000)
+      }
     }
 
   }
 
-  const renderBlogs = () => 
-  blogs.sort((a, b) => b.likes - a.likes)
-  .map(blog =>
-    <Blog 
-      key={blog.id} 
-      blog={blog}
-      likeBlog={() => likeBlog(blog.id)}
-      deleteBlog={() => deleteBlog(blog)}
-      isCurrentUser={ blog.user.username === user.username} 
-    />
-  )
+  const renderBlogs = () =>
+    blogs.sort((a, b) => b.likes - a.likes)
+      .map(blog =>
+        <Blog
+          key={blog.id}
+          blog={blog}
+          likeBlog={() => likeBlog(blog.id)}
+          deleteBlog={() => deleteBlog(blog)}
+          isCurrentUser={ blog.user.username === user.username}
+        />
+      )
 
   return (
     <div>
@@ -180,35 +182,35 @@ function App() {
       <Notification message={notificationMessage} error={errorStatus} />
       {user === null ?
         <LoginForm
-          onSubmit={handleLogin} 
-          handleUsernameChange={handleUsernameChange} 
-          handlePasswordChange={handlePasswordChange} 
-          username={username} 
-          password={password} 
+          onSubmit={handleLogin}
+          handleUsernameChange={handleUsernameChange}
+          handlePasswordChange={handlePasswordChange}
+          username={username}
+          password={password}
         /> :
-          <div>
-            <p> {user.name} logged in. 
+        <div>
+          <p> {user.name} logged in.
             <button onClick={logoutHandler}>
               logout
             </button>
-            </p>
-            <Togglable buttonLabel="New blog">
-              <BlogForm 
-                onSubmit={addBlog}
-                handleTitleChange={handleTitleChange}
-                handleAuthorChange={handleAuthorChange}
-                handleUrlChange={handleUrlChange}
-                title={title}
-                author={author}
-                url={url}
-              />
-            </Togglable>
-            {renderBlogs()}
-          </div>
+          </p>
+          <Togglable buttonLabel="New blog">
+            <BlogForm
+              onSubmit={addBlog}
+              handleTitleChange={handleTitleChange}
+              handleAuthorChange={handleAuthorChange}
+              handleUrlChange={handleUrlChange}
+              title={title}
+              author={author}
+              url={url}
+            />
+          </Togglable>
+          {renderBlogs()}
+        </div>
       }
     </div>
   )
 }
 
 
-export default App;
+export default App

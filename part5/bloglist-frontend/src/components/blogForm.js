@@ -1,11 +1,11 @@
 import React from 'react'
 
-const blogForm = ({onSubmit, handleTitleChange, handleAuthorChange, handleUrlChange, title, author, url}) => {
-    return(
+const blogForm = ({ onSubmit, handleTitleChange, handleAuthorChange, handleUrlChange, title, author, url }) => {
+  return(
     <form onSubmit={onSubmit}>
       <div>
-        Title: 
-          <input
+        Title:
+        <input
           type="text"
           value={title}
           name="Title"
@@ -13,8 +13,8 @@ const blogForm = ({onSubmit, handleTitleChange, handleAuthorChange, handleUrlCha
         />
       </div>
       <div>
-        Author: 
-          <input
+        Author:
+        <input
           type="text"
           value={author}
           name="Author"
@@ -22,8 +22,8 @@ const blogForm = ({onSubmit, handleTitleChange, handleAuthorChange, handleUrlCha
         />
       </div>
       <div>
-        Url: 
-          <input
+        Url:
+        <input
           type="text"
           value={url}
           name="Url"
@@ -31,7 +31,7 @@ const blogForm = ({onSubmit, handleTitleChange, handleAuthorChange, handleUrlCha
         />
       </div>
       <button type="submit">create</button>
-    </form>  
+    </form>
   )
 }
 
