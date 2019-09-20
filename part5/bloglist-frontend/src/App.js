@@ -110,6 +110,35 @@ function App() {
     setUrl(event.target.value)
   }
 
+  const likeBlog = async id => {
+    const blog = blogs.find(n => n.id === id)
+    const changedBlog = { ...blog, likes: blog.likes + 1}
+
+    try{
+      blogService
+      .update(id, changedBlog)
+      .then(returnedBlog =>{
+        setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
+      })
+    }catch (exception) {
+      setPassword('')
+      setErrorStatus(true)
+      setNotificationMessage("That blog has already been removed from the server")
+      setTimeout(() => {
+        setErrorStatus(null)
+        setNotificationMessage(null)
+      }, 5000)
+      setBlogs(blogs.filter(n => n.id !== id))
+    }
+  }
+
+  const renderBlogs = () => blogs.map(blog =>
+    <Blog 
+      key={blog.id} 
+      blog={blog}
+      likeBlog={() => likeBlog(blog.id)} 
+    />
+  )
 
   return (
     <div>
@@ -140,9 +169,7 @@ function App() {
                 url={url}
               />
             </Togglable>
-            {blogs.map(blog =>
-              <Blog key={blog.id} blog={blog} />
-            )}
+            {renderBlogs()}
           </div>
       }
     </div>
