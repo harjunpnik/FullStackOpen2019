@@ -110,33 +110,55 @@ function App() {
     setUrl(event.target.value)
   }
 
-  const likeBlog = async id => {
+  const likeBlog = id => {
     const blog = blogs.find(n => n.id === id)
     const changedBlog = { ...blog, likes: blog.likes + 1}
 
-    try{
+
       blogService
       .update(id, changedBlog)
       .then(returnedBlog =>{
         setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
       })
-    }catch (exception) {
-      setPassword('')
-      setErrorStatus(true)
-      setNotificationMessage("That blog has already been removed from the server")
-      setTimeout(() => {
-        setErrorStatus(null)
-        setNotificationMessage(null)
-      }, 5000)
-      setBlogs(blogs.filter(n => n.id !== id))
+      .catch (error => {
+        setPassword('')
+        setErrorStatus(true)
+        setNotificationMessage("That blog has already been removed from the server")
+        setTimeout(() => {
+          setErrorStatus(null)
+          setNotificationMessage(null)
+        }, 5000)
+        setBlogs(blogs.filter(n => n.id !== id))
+    })
+  }
+
+  const deleteBlog = (blog) => {
+    if(window.confirm("Remove blog " + blog.title + " by " + blog.author + " ?")){
+      blogService
+        .remove(blog.id)
+        .then(response => {
+          setBlogs(blogs.filter(b =>
+            b.id !== blog.id
+          ))
+        }) 
+        .catch(error => {            
+          setErrorStatus(true)
+          setNotificationMessage("Information of " + blog.title + "has already been removed from server")
+          setTimeout(() => {
+            setNotificationMessage(null)
+            setErrorStatus(null)
+          }, 5000)
+        })
     }
+
   }
 
   const renderBlogs = () => blogs.sort((a, b) => b.likes - a.likes).map(blog =>
     <Blog 
       key={blog.id} 
       blog={blog}
-      likeBlog={() => likeBlog(blog.id)} 
+      likeBlog={() => likeBlog(blog.id)}
+      deleteBlog={() => deleteBlog(blog)} 
     />
   )
 
