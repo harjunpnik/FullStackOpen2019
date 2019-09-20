@@ -134,31 +134,43 @@ function App() {
 
   const deleteBlog = (blog) => {
     if(window.confirm("Remove blog " + blog.title + " by " + blog.author + " ?")){
-      blogService
-        .remove(blog.id)
-        .then(response => {
-          setBlogs(blogs.filter(b =>
-            b.id !== blog.id
-          ))
-        }) 
-        .catch(error => {            
-          setErrorStatus(true)
-          setNotificationMessage("Information of " + blog.title + "has already been removed from server")
-          setTimeout(() => {
-            setNotificationMessage(null)
-            setErrorStatus(null)
-          }, 5000)
-        })
+      if( blog.user.username === user.username){
+        blogService
+          .remove(blog.id)
+          .then(response => {
+            setBlogs(blogs.filter(b =>
+              b.id !== blog.id
+            ))
+          }) 
+          .catch(error => {            
+            setErrorStatus(true)
+            setNotificationMessage("Information of " + blog.title + "has already been removed from server")
+            setTimeout(() => {
+              setNotificationMessage(null)
+              setErrorStatus(null)
+            }, 5000)
+          })
+      }else{
+        setErrorStatus(true)
+            setNotificationMessage("You can only delete your own posted blogs")
+            setTimeout(() => {
+              setNotificationMessage(null)
+              setErrorStatus(null)
+            }, 5000)
+      }    
     }
 
   }
 
-  const renderBlogs = () => blogs.sort((a, b) => b.likes - a.likes).map(blog =>
+  const renderBlogs = () => 
+  blogs.sort((a, b) => b.likes - a.likes)
+  .map(blog =>
     <Blog 
       key={blog.id} 
       blog={blog}
       likeBlog={() => likeBlog(blog.id)}
-      deleteBlog={() => deleteBlog(blog)} 
+      deleteBlog={() => deleteBlog(blog)}
+      isCurrentUser={ blog.user.username === user.username} 
     />
   )
 
