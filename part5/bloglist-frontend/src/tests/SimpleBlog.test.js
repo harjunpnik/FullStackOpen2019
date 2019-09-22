@@ -16,7 +16,7 @@ test('renders content', () => {
     <SimpleBlog blog={blog}/>
   )
 
-  component.debug()
+  //component.debug()
 
   expect(component.container).toHaveTextContent(
     'Component testing is done with react-testing-library'
@@ -46,7 +46,7 @@ test('Button is clicked twice', () => {
     <SimpleBlog blog={blog} onClick={mockHandler} />
   )
 
-  component.debug()
+  //component.debug()
 
   const button = component.getByText('like')
   fireEvent.click(button)
