@@ -22,7 +22,7 @@ describe('Blog', () => {
     })
 
     test('renders title and author and info is hidden from start', () => {
-        component.debug()
+        //component.debug()
         component.container.querySelector('.testDiv')
 
         expect(component.container).toHaveTextContent(
