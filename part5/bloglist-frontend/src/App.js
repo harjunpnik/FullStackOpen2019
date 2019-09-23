@@ -47,8 +47,8 @@ function App() {
       //const username = username.value
       //const password = password.value
       const user = await loginService.login({
-        username: username.value,
-        password: password.value,
+        username: username.fields.value,
+        password: password.fields.value,
       })
 
       window.localStorage.setItem(
@@ -80,9 +80,9 @@ function App() {
   const addBlog = (event) => {
     event.preventDefault()
     const blogObject = {
-      title: title.value,
-      author: author.value,
-      url: url.value,
+      title: title.fields.value,
+      author: author.fields.value,
+      url: url.fields.value,
       likes: 0,
     }
 
@@ -175,8 +175,8 @@ function App() {
       {user === null ?
         <LoginForm
           onSubmit={handleLogin}
-          password={password}
-          username={username}
+          password={password.fields}
+          username={username.fields}
         /> :
         <div>
           <p> {user.name} logged in.
@@ -187,9 +187,9 @@ function App() {
           <Togglable buttonLabel="New blog">
             <BlogForm
               onSubmit={addBlog}
-              title={title}
-              author={author}
-              url={url}
+              title={title.fields}
+              author={author.fields}
+              url={url.fields}
             />
           </Togglable>
           {renderBlogs()}
