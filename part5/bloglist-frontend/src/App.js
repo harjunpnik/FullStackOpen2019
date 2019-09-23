@@ -6,6 +6,7 @@ import Notification from './components/Notification'
 import BlogForm from './components/blogForm'
 import LoginForm from './components/loginForm'
 import Togglable from './components/Togglable'
+import  { useField } from './hooks/index'
 
 function App() {
 
@@ -14,10 +15,12 @@ function App() {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  //const [username, setUsername] = useState('')
+  //const [password, setPassword] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [errorStatus, setErrorStatus] = useState(null)
+  const username = useField('text')
+  const password = useField('password')
 
   useEffect(() => {
     blogService
@@ -38,8 +41,11 @@ function App() {
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
+      //const username = username.value
+      //const password = password.value
       const user = await loginService.login({
-        username, password,
+        username: username.value,
+        password: password.value,
       })
 
       window.localStorage.setItem(
@@ -48,11 +54,11 @@ function App() {
 
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
+      //setUsername('')
+      //setPassword('')
       console.log(user)
     } catch (exception) {
-      setPassword('')
+      //setPassword('')
       setErrorStatus(true)
       setNotificationMessage('Wrong username or password')
       setTimeout(() => {
@@ -60,13 +66,6 @@ function App() {
         setNotificationMessage(null)
       }, 5000)
     }
-  }
-
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value)
-  }
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value)
   }
 
   const logoutHandler = () => {
@@ -122,7 +121,7 @@ function App() {
       })
       .catch (error => {
         console.log(error)
-        setPassword('')
+        //setPassword('')
         setErrorStatus(true)
         setNotificationMessage('That blog has already been removed from the server')
         setTimeout(() => {
@@ -183,10 +182,8 @@ function App() {
       {user === null ?
         <LoginForm
           onSubmit={handleLogin}
-          handleUsernameChange={handleUsernameChange}
-          handlePasswordChange={handlePasswordChange}
-          username={username}
           password={password}
+          username={username}
         /> :
         <div>
           <p> {user.name} logged in.
