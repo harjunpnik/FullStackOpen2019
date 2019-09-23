@@ -7,21 +7,11 @@ const loginForm = ({ onSubmit, username, password }) => {
       <form onSubmit={onSubmit}>
         <div>
           Username:
-          <input
-            type='username'
-            value={username.value}
-            name="Username"
-            onChange={username.onChange}
-          />
+          <input {...username}/>
         </div>
         <div>
           Password:
-          <input
-            type='password'
-            value={password.value}
-            name="Password"
-            onChange={password.onChange}
-          />
+          <input {...password}/>
         </div>
         <button type="submit">login</button>
       </form>

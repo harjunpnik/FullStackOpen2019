@@ -12,15 +12,18 @@ function App() {
 
   const [user, setUser] = useState(null)
   const [blogs, setBlogs] = useState([])
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  //const [title, setTitle] = useState('')
+  //const [author, setAuthor] = useState('')
+  //const [url, setUrl] = useState('')
   //const [username, setUsername] = useState('')
   //const [password, setPassword] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [errorStatus, setErrorStatus] = useState(null)
   const username = useField('text')
   const password = useField('password')
+  const title = useField('text')
+  const author = useField('text')
+  const url = useField('text')
 
   useEffect(() => {
     blogService
@@ -54,11 +57,11 @@ function App() {
 
       blogService.setToken(user.token)
       setUser(user)
-      //setUsername('')
-      //setPassword('')
+      username.reset()
+      password.reset()
       console.log(user)
     } catch (exception) {
-      //setPassword('')
+      password.reset()
       setErrorStatus(true)
       setNotificationMessage('Wrong username or password')
       setTimeout(() => {
@@ -77,9 +80,9 @@ function App() {
   const addBlog = (event) => {
     event.preventDefault()
     const blogObject = {
-      title: title,
-      author: author,
-      url: url,
+      title: title.value,
+      author: author.value,
+      url: url.value,
       likes: 0,
     }
 
@@ -88,25 +91,15 @@ function App() {
       .create(blogObject)
       .then(data => {
 
-        setNotificationMessage('A new blog ' +  title + ' by ' +  author +  ' added')
+        setNotificationMessage('A new blog ' +  blogObject.title + ' by ' +  blogObject.author +  ' added')
         setTimeout(() => {
           setNotificationMessage(null)
         }, 5000)
         setBlogs(blogs.concat(data))
-        setTitle('')
-        setAuthor('')
-        setUrl('')
+        title.reset()
+        author.reset()
+        url.reset()
       })
-  }
-
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value)
-  }
-  const handleAuthorChange = (event) => {
-    setAuthor(event.target.value)
-  }
-  const handleUrlChange = (event) => {
-    setUrl(event.target.value)
   }
 
   const likeBlog = id => {
@@ -194,9 +187,6 @@ function App() {
           <Togglable buttonLabel="New blog">
             <BlogForm
               onSubmit={addBlog}
-              handleTitleChange={handleTitleChange}
-              handleAuthorChange={handleAuthorChange}
-              handleUrlChange={handleUrlChange}
               title={title}
               author={author}
               url={url}
