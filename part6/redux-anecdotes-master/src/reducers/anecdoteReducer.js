@@ -46,6 +46,7 @@ const reducer = (state = initialState, action) => {
 
 }
 
+
 export const incrementVote = (id) => {
   return {
     type: 'VOTE',
@@ -54,7 +55,6 @@ export const incrementVote = (id) => {
     }
   }
 }
-
 export const addAnecdote = (content) => {
   return {
     type: "ADD",
