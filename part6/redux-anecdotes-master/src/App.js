@@ -1,14 +1,14 @@
 import React from 'react';
-import { incrementVote } from './reducers/anecdoteReducer'
-import  { useField } from './hooks/index'
 import AnecdoteForm from './components/AnecdoteForm';
 import AnecdoteList from './components/AnecdoteList'
+import Notification from './components/Notification'
 
 const App = (props) => {
 
   return (
     <div>
       <h2>Anecdotes</h2>
+      <Notification store={props.store}/>
       <AnecdoteList store={props.store}/>
       <AnecdoteForm store={props.store}/>
     </div>
