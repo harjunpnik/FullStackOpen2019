@@ -2,17 +2,18 @@ import React from 'react';
 import { addAnecdote } from '../reducers/anecdoteReducer'
 import  { useField } from '../hooks/index'
 import { showNotification, hideNotification } from '../reducers/notificationReducer'
+import { connect } from 'react-redux'
 
-const AnecdoteForm = ({store}) => {
+const AnecdoteForm = (props) => {
 
   const textInput = useField('text')
 
   const add = (content) => {
     //console.log('add', content)
-    store.dispatch(addAnecdote(content))
-    store.dispatch(showNotification("You added: " + content))
+    props.addAnecdote(content)
+    props.showNotification("You added: " + content)
     setTimeout(() =>{
-      store.dispatch(hideNotification())
+      props.hideNotification()
     }, 5000)
   }
 
@@ -35,4 +36,15 @@ const AnecdoteForm = ({store}) => {
   )
 }
 
-export default AnecdoteForm
+const mapStateToProps = (state) => {
+  // sometimes it is useful to console log from mapStateToProps
+  console.log(state)
+  return {
+    anecdotes: state.anecdotes,
+    filter: state.filter
+  }
+}
+
+const ConnectedForm = connect(mapStateToProps, {addAnecdote, showNotification, hideNotification })(AnecdoteForm)
+
+export default ConnectedForm
