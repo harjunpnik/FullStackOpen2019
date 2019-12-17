@@ -26,8 +26,7 @@ const mapStateToProps = (state) => {
   // sometimes it is useful to console log from mapStateToProps
   console.log(state)
   return {
-    anecdotes: state.anecdotes,
-    filter: state.filter
+    notification: state.notification
   }
 }
 const ConnectedNotifications = connect(mapStateToProps)(Notification)

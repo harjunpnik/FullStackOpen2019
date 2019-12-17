@@ -6,19 +6,11 @@ import { connect } from 'react-redux'
 const AnecdoteList = (props) => {
   //const { anecdotes, filter } = props.store.getState()
 
-  const filterAnecdotes = () => {
-    if(props.filter !== ""){
-      //console.log(anecdotes.filter(n => n.content.toLowerCase().indexOf(filter.toLowerCase()) !== -1) )
-      return props.anecdotes.filter(n => n.content.toLowerCase().indexOf(props.filter.toLowerCase()) !== -1) 
-    }else
-      return props.anecdotes
-    
-  }
 
   const vote = (id) => {
     //console.log('vote', id)
     props.incrementVote(id)
-    props.showNotification("You voted for: " + props.anecdotes.find(n => n.id === id).content)
+    props.showNotification("You voted for: " + props.filteredAnecdotes.find(n => n.id === id).content)
     setTimeout(() =>{
       props.hideNotification()
     }, 5000)
@@ -27,7 +19,7 @@ const AnecdoteList = (props) => {
 
   return (
     <div>
-      {filterAnecdotes().map(anecdote =>
+      {props.filteredAnecdotes.map(anecdote =>
         <div key={anecdote.id}>
 
           <div>
@@ -46,11 +38,21 @@ const AnecdoteList = (props) => {
   )
 }
 
+const filterAnecdotes = ({anecdotes, filter}) => {
+  if(filter !== ""){
+    //console.log(anecdotes.filter(n => n.content.toLowerCase().indexOf(filter.toLowerCase()) !== -1) )
+    return anecdotes.filter(n => n.content.toLowerCase().indexOf(filter.toLowerCase()) !== -1) 
+  }else
+    return anecdotes
+  
+}
+
+
 const mapStateToProps = (state) => {
   // sometimes it is useful to console log from mapStateToProps
   console.log(state)
   return {
-    anecdotes: state.anecdotes,
+    filteredAnecdotes: filterAnecdotes(state),
     filter: state.filter
   }
 }
