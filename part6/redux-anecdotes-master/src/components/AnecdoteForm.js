@@ -1,22 +1,16 @@
 import React from 'react';
 import { addAnecdote } from '../reducers/anecdoteReducer'
 import  { useField } from '../hooks/index'
-import { showNotification, hideNotification } from '../reducers/notificationReducer'
+import { setNotification } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
-import anecdoteService from '../services/anecdoteService'
 
 const AnecdoteForm = (props) => {
 
   const textInput = useField('text')
 
   const add = async (content) => {
-    //console.log('add', content)
-    const newContent = await anecdoteService.create(content)
     props.addAnecdote(content)
-    props.showNotification("You added: " + content)
-    setTimeout(() =>{
-      props.hideNotification()
-    }, 5000)
+    props.setNotification("You added: " + content, 5000)
   }
 
   return (
@@ -47,6 +41,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-const ConnectedForm = connect(mapStateToProps, {addAnecdote, showNotification, hideNotification })(AnecdoteForm)
+const ConnectedForm = connect(mapStateToProps, {addAnecdote, setNotification})(AnecdoteForm)
 
 export default ConnectedForm

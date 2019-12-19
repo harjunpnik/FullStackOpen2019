@@ -1,15 +1,5 @@
 import anecdoteService from "../services/anecdoteService"
 
-const getId = () => (100000 * Math.random()).toFixed(0)
-
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
-}
-
 const sortAnecdotes = (anecdotes) => {
   let sorted  = anecdotes.sort((a,b) => {
     return b.votes - a.votes})
@@ -43,11 +33,16 @@ const reducer = (state = [], action) => {
 
 
 export const incrementVote = (id) => {
-  return {
-    type: 'VOTE',
-    data:{
-      id: id
-    }
+  //console.log(id)
+  return async dispatch =>{
+    let targetAnecdote = await anecdoteService.getAll()
+    targetAnecdote = targetAnecdote.find(n => n.id === id)
+    //console.log("target", targetAnecdote)
+    await anecdoteService.update(id, {...targetAnecdote, votes: targetAnecdote.votes+ 1 })
+    dispatch({
+      type: "VOTE",
+      data: { id }
+    })
   }
 }
 
